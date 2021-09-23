@@ -38,8 +38,6 @@ void Player::initAnimations()
 	animManager->addLoopedAnimation(&sprite, "Sprites/king/Attack_main.png",0, 0, 78, 58, "ATTACK", 5);
 	animManager->addLoopedAnimation(&sprite, "Sprites/king/Hit.png",0, 0, 78, 58, "HIT", 5);
 	animManager->addLoopedAnimation(&sprite, "Sprites/king/Door_In.png",0, 0, 78, 58, "ENTRY_LEVEL", 5);
-
-
 	animManager->addOnetimeAnimation(&sprite, "Sprites/king/Dead.png",0, 0, 78, 58, "DEAD", 0);
 	animManager->setCurrentAnimation("ENTRY_LEVEL");
 }

@@ -9,6 +9,7 @@ public:
 	void addLoopedAnimation(sf::Sprite* targetSprite, sf::String texturePath, float x, float y, float frameWidth, float frameHeight, sf::String name, int priority);
 	void addOnetimeAnimation(sf::Sprite* targetSprite, sf::String texturePath, float x, float y, float frameWidth, float frameHeight, sf::String name, int priority);
 	void setCurrentAnimation(sf::String name);
+	void setCurrentAnimation()
 	sf::Sprite* getCurrentFrame();
 	void runCurrentAnimation();
 	bool currentAnimationIsOver();

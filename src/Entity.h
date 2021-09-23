@@ -1,33 +1,43 @@
 #pragma once
+#pragma once
 #include "SFML/Graphics.hpp"
-#include "HitBoxComponent.h"
-#include <vector>
-#include "AnimationManager.h"
+#include <Entt/entt.hpp>
+#include "Scene.h"
 class Entity
 {
 public:
-	Entity(const float _x, const float _y);
-	sf::Vector2f getPosition() const;
-	sf::FloatRect getGlobalBounds() const;
-	sf::FloatRect getHitBox() const;
-	float getHitBoxOffsetX() const;
-	float getHitBoxOffsetY() const;
-	virtual void getHitWith(int _dmg) = 0;
-	bool isAlive();
-	void setPosition(const float x, const float y);
-	void setHitBoxPos(const float x, const float y);
-	void render(sf::RenderTarget& render);
-	virtual void update() = 0;
-	virtual void initAnimations() = 0;
-	bool currentAnimationIsOver();
-	~Entity();
+	Entity(entt::entity id, Scene* scene) : EntityID(id), _scene(scene)
+	{};
+	Entity(Entity& other) = default;
+	Entity() = default;	
 	
-protected:
-	sf::Sprite sprite;
-	AnimationManager* animManager;
-	HitBoxComponent* HitBox;
-	int health;
+	template<typename T, typename ... Args >
+	T& AddComponent(Args&& ... args)
+	{
+		_scene->entt_reg.emplace<T>(EntityID,std::forward<Args>(args)...);
+	}
 
-	
+	template<typename T>
+	bool hasComponent()
+	{
+		return _scene->entt_reg.has<T>(EntityID);
+	}
+
+	template<typename T>
+	T& getComponent()
+	{
+		return _scene->entt_reg.get<T>(EntityID);
+	}
+
+	template<typename T>
+	int removeComponent()
+	{
+		return _scene->entt_reg.remove<T>(EntityID);
+	}
+
+private:
+	entt::entity EntityID { entt::null};
+	Scene* _scene;
+	sf::Sprite sprite;	
 };
 

@@ -1,13 +1,8 @@
-#include "Entity.h"
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "Entity.h"
 
 
-Entity::Entity(const float _x, const float _y)
-{
-	sprite.setPosition(_x, _y);
-	
-}
 
 sf::Vector2f Entity::getPosition() const
 {

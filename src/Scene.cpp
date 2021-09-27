@@ -7,3 +7,11 @@ Entity Scene::createEntity(const std::string& tag)
     auto TagComp = entity.AddComponent<TagComponent>();
     TagComp.Tag = !empty(tag) ? tag : "Default Name" ;
 }
+ entt::registry& Scene::Reg() 
+    {
+        return entt_reg;
+    }
+sf::RenderWindow& Scene::Wind()
+{
+    return wind;
+}

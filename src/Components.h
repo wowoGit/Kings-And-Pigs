@@ -30,12 +30,11 @@ struct SpriteComponent
 
 struct AnimationComponent
 {
-    SpriteComponent spriteComponent;
     float speed;
     sf::IntRect frame;
     bool islooped;
-    AnimationComponent(sf::IntRect& rect,SpriteComponent& sprite_comp, bool loop, float anim_speed) : 
-    spriteComponent(sprite_comp),frame(rect),islooped(loop), speed(anim_speed) {}
+    AnimationComponent(sf::IntRect& rect,  bool loop, float anim_speed) : 
+    frame(rect),islooped(loop), speed(anim_speed) {}
     AnimationComponent(AnimationComponent& other) = default;
 
 };
@@ -129,8 +128,7 @@ struct CollidableComponent
 
 struct PlayerStateComponent
 {
-    enum STATE {IDLE = 0, MOVE_LEFT, MOVE_RIGHT, JUMP, FALL, ATTACK};
-    STATE p_state;
+    std::string p_state;
     PlayerStateComponent() = default; 
     PlayerStateComponent(PlayerStateComponent& state) = default;
 };

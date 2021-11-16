@@ -13,7 +13,7 @@ struct MoveRightCommand: public MoveCommand
     bool execute(MoveComponent& comp,PlayerStateComponent& state) override
     {
         comp.velocity.x = comp.speed;
-        state.p_state = PlayerStateComponent::MOVE_RIGHT;
+        state.p_state = "MOVE_RIGHT";
     }
 };
 
@@ -23,7 +23,7 @@ struct MoveLeftCommand: public MoveCommand
     bool execute(MoveComponent& comp,PlayerStateComponent& state) override
     {
         comp.velocity.x = -comp.speed;
-        state.p_state = PlayerStateComponent::MOVE_LEFT;
+        state.p_state = "MOVE_LEFT";
     }
 };
 struct MoveDownCommand: public MoveCommand
@@ -32,7 +32,7 @@ struct MoveDownCommand: public MoveCommand
     bool execute(MoveComponent& comp,PlayerStateComponent& state) override
     {
         comp.velocity.y = -comp.speed;
-        state.p_state = PlayerStateComponent::FALL;
+        state.p_state = "MOVE_DOWN";
     }
 };
 struct MoveUpCommand: public MoveCommand
@@ -41,7 +41,7 @@ struct MoveUpCommand: public MoveCommand
     bool execute(MoveComponent& comp,PlayerStateComponent& state) override
     {
         comp.velocity.y = comp.speed;
-        state.p_state = PlayerStateComponent::JUMP;
+        state.p_state = "MOVE_UP";
     }
 };
 
@@ -50,7 +50,7 @@ struct IdleCommand: public MoveCommand
     IdleCommand() = default;
     bool execute(MoveComponent& comp,PlayerStateComponent& state) override
     {
-        state.p_state = PlayerStateComponent::IDLE;
+        state.p_state = "IDLE";
     }
 };
 

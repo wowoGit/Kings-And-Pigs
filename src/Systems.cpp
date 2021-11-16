@@ -72,48 +72,20 @@ bool AnimationSystem::update(float dt)
        auto player_entity = view.front();
 
        auto [pool,state] = view.get<AnimationPool,PlayerStateComponent>(player_entity);
-       std::string new_anim = pool.current;
 
-       switch (state.p_state)
-       {
-       case PlayerStateComponent::MOVE_RIGHT:
-                new_anim = "MOVE_RIGHT";
-               break;
-       case PlayerStateComponent::MOVE_LEFT:
-                new_anim = "MOVE_LEFT";
-               break;
+        pool.current = state.p_state;
 
-        case PlayerStateComponent::JUMP:
-                new_anim = "JUMP";
-               break;
-
-        case PlayerStateComponent::FALL:
-                new_anim = "FALL";
-               break;
-
-        case PlayerStateComponent::ATTACK:
-                new_anim = "ATTACK";
-               break;
-
-        case PlayerStateComponent::IDLE:
-                new_anim = "IDLE";
-               break;
-       }
-       if(new_anim != pool.current)
-        {
-                
-        }
 
 
 }
-void runAnimation(AnimationComponent& animation)
+void AnimationSystem::runAnimation(AnimationComponent& animation, SpriteComponent& sprite_comp)
 {
-        auto textureSize = animation.spriteComponent.Sprite.getTexture()->getSize();
-        auto& sprite  = animation.spriteComponent.Sprite;
+        auto textureSize =sprite_comp.Sprite.getTexture()->getSize();
+        auto& sprite  = sprite_comp.Sprite;
         auto& frame = animation.frame;
 
         sprite.setTextureRect(frame);
-        if(animation.isflipped)
+        if(sprite_comp.flip)
         {
                 frame.left -= frame.width;
                 if(frame.left  <= frame.width) {
@@ -147,7 +119,19 @@ void runAnimation(AnimationComponent& animation)
 
 }
 
+bool SpriteRendererSystem::update(float dt)
+{
+       entt::registry& entt_reg = scene->Reg();
+       auto view = entt_reg.view<MoveComponent,SpriteComponent>();
+       for( auto [entt,pos,sprite] : view.each())
+       {
+               sprite.Sprite.move(pos.position);
+               scene->Wind().draw(sprite.Sprite);
+       }
+        
 
+
+}
 
 
 

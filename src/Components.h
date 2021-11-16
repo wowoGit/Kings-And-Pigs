@@ -16,12 +16,36 @@ struct TagComponent
 struct SpriteComponent
 {
     sf::Sprite Sprite;
-    SpriteComponent(sf::Texture& texture)
+    bool flip; 
+    SpriteComponent(sf::Texture& texture, sf::IntRect rect, bool flipped)
     {
         Sprite.setTexture(texture);
+        Sprite.setTextureRect(rect);
+        flip = flipped;
+        
     }
     SpriteComponent() = default;
     SpriteComponent(SpriteComponent& other) = default; 
+};
+
+struct AnimationComponent
+{
+    SpriteComponent spriteComponent;
+    float speed;
+    sf::IntRect frame;
+    bool islooped;
+    AnimationComponent(sf::IntRect& rect,SpriteComponent& sprite_comp, bool loop, float anim_speed) : 
+    spriteComponent(sprite_comp),frame(rect),islooped(loop), speed(anim_speed) {}
+    AnimationComponent(AnimationComponent& other) = default;
+
+};
+
+struct AnimationPool
+{
+    std::map<TagComponent,AnimationComponent> pool;
+    std::string current;
+    AnimationPool(std::map<TagComponent,AnimationComponent>& anim_pool) : pool(anim_pool) {};
+    AnimationPool(AnimationPool& other) = default;
 };
 
 struct MoveComponent
@@ -93,4 +117,20 @@ struct PlayerMoveComponent
 
         button_S = command;
     }
+};
+
+struct CollidableComponent
+{
+    sf::IntRect body;
+    CollidableComponent(sf::IntRect body_param) : body(body_param) {}
+    CollidableComponent() = default;
+    CollidableComponent(CollidableComponent& other) = default;
+};
+
+struct PlayerStateComponent
+{
+    enum STATE {IDLE = 0, MOVE_LEFT, MOVE_RIGHT, JUMP, FALL, ATTACK};
+    STATE p_state;
+    PlayerStateComponent() = default; 
+    PlayerStateComponent(PlayerStateComponent& state) = default;
 };

@@ -4,7 +4,7 @@ class System
     public:
     System(Scene* currentScene) : scene(currentScene) 
     { }
-    virtual bool update(float deltaTime = .0f) = 0;
+    virtual bool update(float deltaTime) = 0;
 
     protected:
     Scene* scene;
@@ -14,11 +14,28 @@ class System
 class PlayerInputSystem : public System
 {
     public:
-    virtual bool update(float dt = .0f) override;
+    PlayerInputSystem(Scene* currentScene) : System(currentScene) {};
+    virtual bool update(float dt) override;
 };
 
 class MoveSystem : public System
 {
     public:
-    virtual bool update(float dt = .0f) override;
+    MoveSystem(Scene* currentScene) : System(currentScene) {};
+    virtual bool update(float dt) override;
+};
+
+class ColliderSystem: public System
+{
+    public:
+    ColliderSystem(Scene* currentScene) : System(currentScene) {};
+    virtual bool update(float dt) override;
+};
+
+class AnimationSystem: public System
+{
+public:
+    AnimationSystem(Scene* currentScene) : System(currentScene) {};
+    virtual bool update(float dt) override;
+    void runAnimation(AnimationComponent& animation);
 };

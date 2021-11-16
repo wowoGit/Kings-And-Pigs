@@ -11,8 +11,11 @@ void Game::initWindow()
 void Game::initPlayer()
 {
 	player = std::make_unique<Entity>(Scene::Reg().create(), this);
+	tex.loadFromFile("Sprites/king/Idle.png");
+	sf::IntRect rect(0,0,78,58);
+	sf::Sprite sprite(tex,rect);
 	player->AddComponent<MoveComponent>(sf::Vector2f(100,100), sf::Vector2f());
-	player->AddComponent<SpriteComponent>("Sprites/king/Indle.png", sf::IntRect(0,0,78,58),false);
+	player->AddComponent<SpriteComponent>(sprite,false);
 
 	spriteSystem = std::make_unique<SpriteRendererSystem>(this);
 	
@@ -53,14 +56,10 @@ void Game::initLevel()
 
 void Game::initView()
 {
-	auto& pos = player->getComponent<MoveComponent>().position;
-	view = new sf::View(pos, sf::Vector2f(500.f, 350.f));
+	//auto& pos = player->getComponent<MoveComponent>().position;
+	//view = new sf::View(pos, sf::Vector2f(500.f, 350.f));
 }
 
-
-Game::~Game()
-{
-}
 
 void Game::updatePlayer()
 {
@@ -83,8 +82,8 @@ void Game::updateView()
 		view->setCenter(view->getCenter().x + view->getSize().x, player->getPosition().y);
 	else if (player->getHitBox().left < view->getCenter().x - view->getSize().x / 2)
 		view->setCenter(view->getCenter().x - view->getSize().x, player->getPosition().y);*/
-	auto& pos = player->getComponent<MoveComponent>();
-	view->setCenter(pos.position.x, view->getCenter().y);
+	//auto& pos = player->getComponent<MoveComponent>();
+	//view->setCenter(pos.position.x, view->getCenter().y);
 	
 
 	//if (player->getHitBox().top + player->getHitBox().height <= view->getCenter().y - view->getSize().y / 2)
@@ -148,7 +147,6 @@ bool Game::update(float dt)
 	
 	
 	
-	spriteSystem->update(dt);
 	//this->updatePlayer();
 	////std::cout << player->getHitBox().top << "\t\t" << player->getPosition().y << std::endl;
 	//this->playerAttacks();
@@ -163,7 +161,7 @@ bool Game::update(float dt)
 	////pigshape.setPosition(Pigs_vec[0]->getHitBox().left, Pigs_vec[0]->getHitBox().top);
 //#endif // DEBUG
 
-	
+	return true;
 }
 
 void Game::renderPlayer()
@@ -189,8 +187,10 @@ void Game::updatePigs()
 
 bool Game::render()
 {
+	std::cout << "render\n";
 	this->window.clear();
-
+	spriteSystem->update(0.f);
+	window.display();
 	//Render game
 	
 	//lvlController->renderCurrentLevel(this->window);
@@ -214,6 +214,7 @@ bool Game::render()
 	//}
 	//window.setView(*view);
 	//this->window.display();
+	return true;
 }
 
 const sf::RenderWindow& Game::getWindow() const

@@ -11,7 +11,7 @@ class Scene
      
      Scene(sf::RenderWindow& window) : wind(window)
      {};
-     ~Scene();
+     ~Scene() = default;
 
      virtual bool update(float dt) = 0;
      virtual bool render() = 0;

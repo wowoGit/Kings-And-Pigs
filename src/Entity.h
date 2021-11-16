@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "SFML/Graphics.hpp"
 #include <Entt/entt.hpp>
 #include "Scene.h"
@@ -14,13 +13,14 @@ public:
 	template<typename T, typename ... Args >
 	T& AddComponent(Args&& ... args)
 	{
-		_scene->entt_reg.emplace<T>(EntityID,std::forward<Args>(args)...);
+		return _scene->entt_reg.emplace<T>(EntityID,std::forward<Args>(args)...);
 	}
 
 	template<typename T>
 	bool hasComponent()
 	{
-		return _scene->entt_reg.has<T>(EntityID);
+		//return _scene->entt_reg.has<T>(EntityID);
+		return false;
 	}
 
 	template<typename T>

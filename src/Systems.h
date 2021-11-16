@@ -1,5 +1,7 @@
 #include "Scene.h"
+#include "Components.h"
 class System
+
 {
     public:
     System(Scene* currentScene) : scene(currentScene) 

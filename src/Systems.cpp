@@ -1,36 +1,35 @@
 #include "Systems.h"
-#include "Components.h"
 
 
 
 bool PlayerInputSystem::update(float dt) 
 {
         //POSSIBLY RELOCATE TO BASE CLASS CONSTRUCTOR
-        entt::registry& entt_reg = scene->Reg();
+        //entt::registry& entt_reg = scene->Reg();
 
-        auto view = entt_reg.view<PlayerMoveComponent, MoveComponent, PlayerStateComponent>();
-        auto player_entity = view.front();
+        //auto view = entt_reg.view<PlayerMoveComponent, MoveComponent, PlayerStateComponent>();
+        //auto player_entity = view.front();
 
-        // get PlayerMoveComponent
-        for(auto [player, player_mc, mc, sc] : view.each())
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-        {
-                player_mc.button_A->execute(mc,sc);
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-        {
-                player_mc.button_W->execute(mc,sc);
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-        {
-                player_mc.button_S->execute(mc,sc);
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-        {
-                player_mc.button_D->execute(mc,sc);
-        }
+        //// get PlayerMoveComponent
+        //for(auto [player, player_mc, mc, sc] : view.each())
+        //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+        //{
+                //player_mc.button_A->execute(mc,sc);
+        //}
+        //else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
+        //{
+                //player_mc.button_W->execute(mc,sc);
+        //}
+        //else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+        //{
+                //player_mc.button_S->execute(mc,sc);
+        //}
+        //else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+        //{
+                //player_mc.button_D->execute(mc,sc);
+        //}
         
-        
+        return true;
 }
 
 bool MoveSystem::update(float dt) 
@@ -44,6 +43,7 @@ bool MoveSystem::update(float dt)
                 mc.velocity *= .0f;
         }
 
+        return true;
 }
 // TO DO
 bool ColliderSystem::update(float dt)
@@ -63,21 +63,22 @@ bool ColliderSystem::update(float dt)
                         
                 }
         }
+        return true;
 } 
 
-bool AnimationSystem::update(float dt) 
-{
-       entt::registry& entt_reg = scene->Reg();
-       auto view = entt_reg.view<AnimationPool, PlayerStateComponent>();
-       auto player_entity = view.front();
+//bool AnimationSystem::update(float dt) 
+//{
+       //entt::registry& entt_reg = scene->Reg();
+       //auto view = entt_reg.view<AnimationPool, PlayerStateComponent>();
+       //auto player_entity = view.front();
 
-       auto [pool,state] = view.get<AnimationPool,PlayerStateComponent>(player_entity);
+       //auto [pool,state] = view.get<AnimationPool,PlayerStateComponent>(player_entity);
 
-        pool.current = state.p_state;
+        //pool.current = state.p_state;
 
 
 
-}
+//}
 void AnimationSystem::runAnimation(AnimationComponent& animation, SpriteComponent& sprite_comp)
 {
         auto textureSize =sprite_comp.Sprite.getTexture()->getSize();
@@ -125,11 +126,12 @@ bool SpriteRendererSystem::update(float dt)
        auto view = entt_reg.view<MoveComponent,SpriteComponent>();
        for( auto [entt,pos,sprite] : view.each())
        {
-               sprite.Sprite.move(pos.position);
+               sprite.Sprite.setPosition(pos.position);
                scene->Wind().draw(sprite.Sprite);
        }
         
 
+        return true;
 
 }
 

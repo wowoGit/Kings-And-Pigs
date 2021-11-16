@@ -1,11 +1,11 @@
 #pragma once
 #include "SFML/Graphics.hpp"
-#include "Pig.h"
-#include "ActiveEnemies.h"
-#include "InvisibleBoundaries.h"
-#include "SolidBoundaries.h"
-#include "StickBoundaries.h"
-#include "LevelController.h"
+//#include "Pig.h"
+//#include "ActiveEnemies.h"
+//#include "InvisibleBoundaries.h"
+//#include "SolidBoundaries.h"
+//#include "StickBoundaries.h"
+//#include "LevelController.h"
 #include "Systems.h"
 #include "Components.h"
 #include "Entity.h"
@@ -15,7 +15,7 @@ private:
 	sf::RenderWindow& window;
 	sf::Event ev;
 	std::unique_ptr<Entity> player;
-
+	sf::Texture tex;
 	std::unique_ptr<SpriteRendererSystem> spriteSystem;
 	/*BoundariesComponent* solidBounds;
 	BoundariesComponent* invisBounds;
@@ -39,8 +39,6 @@ Game(sf::RenderWindow& game_window) : Scene(game_window), window(game_window)
 	this->initView();
 	srand(time(NULL));
 }
-
-	virtual ~Game();
 
 	//Functions
 	void updatePlayer();

@@ -23,13 +23,11 @@ struct AnimationComponent
 
 };
 
-//struct AnimationPool
-//{
-    //std::map<TagComponent,AnimationComponent> pool;
-    //std::string current;
-    //AnimationPool(std::map<TagComponent,AnimationComponent>& anim_pool) : pool(anim_pool) {};
-    //AnimationPool(AnimationPool& other) = default;
-//};
+struct AnimationPool
+{
+    std::map<std::string, sf::IntRect> pool;
+    std::string current;
+};
 
 struct MoveComponent
 {
@@ -100,7 +98,7 @@ struct CollidableComponent
     sf::IntRect body;
 };
 
-struct PlayerStateComponent
+struct StateComponent
 {
-    std::string p_state;
+    std::string state;
 };

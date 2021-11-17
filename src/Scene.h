@@ -14,7 +14,7 @@ class Scene
      ~Scene() = default;
 
      virtual bool update(float dt) = 0;
-     virtual bool render() = 0;
+     virtual bool render(float dt) = 0;
      entt::registry& Reg();
      Entity createEntity(const std::string& tag);
      sf::RenderWindow& Wind();

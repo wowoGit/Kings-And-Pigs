@@ -11,13 +11,21 @@ void Game::initWindow()
 void Game::initPlayer()
 {
 	player = std::make_unique<Entity>(Scene::Reg().create(), this);
-	tex.loadFromFile("Sprites/king/Idle.png");
+	auto& texture = TextureLoader::loadFromFile("Sprites/king/Idle.png", "IDLE");
+	auto& texture1 = TextureLoader::loadFromFile("Sprites/king/Run.png", "RUN_RIGHT");
 	sf::IntRect rect(0,0,78,58);
-	sf::Sprite sprite(tex,rect);
+	sf::Sprite sprite(texture,rect);
+	std::map<std::string,sf::IntRect> animation_pool {{"IDLE", rect},{"RUN_RIGHT", rect}};
+
 	player->AddComponent<MoveComponent>(sf::Vector2f(100,100), sf::Vector2f());
-	player->AddComponent<SpriteComponent>(sprite,false);
+	player->AddComponent<SpriteComponent>(sprite,true);
+	player->AddComponent<AnimationComponent>(.1f,rect,false);
+	player->AddComponent<StateComponent>("IDLE");
+	player->AddComponent<AnimationPool>(animation_pool,"IDLE");
 
 	spriteSystem = std::make_unique<SpriteRendererSystem>(this);
+	animStateSystem = std::make_unique<AnimationStateSystem>(this);
+	animSystem = std::make_unique<AnimationSystem>(this);
 	
 }
 
@@ -138,9 +146,14 @@ bool Game::update(float dt)
 			}
 			else if (ev.key.code == sf::Keyboard::N)
 			{
-				changeLevel();
+				auto& state = player->getComponent<StateComponent>();
+				state.state = "IDLE";
 			}
-				
+			else if (ev.key.code == sf::Keyboard::M)
+			{
+				auto& state = player->getComponent<StateComponent>();
+				state.state = "RUN_RIGHT";
+			}
 		}
 			
 	}
@@ -185,10 +198,11 @@ void Game::updatePigs()
 	//}
 }
 
-bool Game::render()
+bool Game::render(float dt)
 {
-	std::cout << "render\n";
 	this->window.clear();
+	animSystem->update(dt);
+	animStateSystem->update(102);
 	spriteSystem->update(0.f);
 	window.display();
 	//Render game

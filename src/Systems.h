@@ -39,7 +39,16 @@ class AnimationSystem: public System
 public:
     AnimationSystem(Scene* currentScene) : System(currentScene) {};
     virtual bool update(float dt) override;
-    void runAnimation(AnimationComponent& animation, SpriteComponent& sprite_comp);
+    void runAnimation(AnimationComponent& animation, SpriteComponent& sprite_comp, float dt);
+private:
+    float elapsed = 0.0f;
+};
+
+class AnimationStateSystem: public System
+{
+    public:
+    AnimationStateSystem(Scene* currentScene) : System(currentScene) {};
+    virtual bool update(float dt) override;
 };
 
 class SpriteRendererSystem : public System

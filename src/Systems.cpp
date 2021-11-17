@@ -1,4 +1,6 @@
 #include "Systems.h"
+#include "TextureLoader.h"
+#include <iostream>
 
 
 
@@ -66,62 +68,49 @@ bool ColliderSystem::update(float dt)
         return true;
 } 
 
-//bool AnimationSystem::update(float dt) 
-//{
-       //entt::registry& entt_reg = scene->Reg();
-       //auto view = entt_reg.view<AnimationPool, PlayerStateComponent>();
-       //auto player_entity = view.front();
-
-       //auto [pool,state] = view.get<AnimationPool,PlayerStateComponent>(player_entity);
-
-        //pool.current = state.p_state;
-
-
-
-//}
-void AnimationSystem::runAnimation(AnimationComponent& animation, SpriteComponent& sprite_comp)
+bool AnimationSystem::update(float dt) 
 {
+       entt::registry& entt_reg = scene->Reg();
+       auto view = entt_reg.view<AnimationComponent, SpriteComponent>();
+
+        for(auto [entity, animation,sprite] : view.each())
+        {
+                runAnimation(animation,sprite,dt);
+        }
+
+}
+void AnimationSystem::runAnimation(AnimationComponent& animation, SpriteComponent& sprite_comp, float dt)
+{
+        elapsed +=dt;
+        std::cout<<elapsed << std::endl;
+        if (elapsed < animation.speed)
+        {
+                return;
+        }
         auto textureSize =sprite_comp.Sprite.getTexture()->getSize();
         auto& sprite  = sprite_comp.Sprite;
         auto& frame = animation.frame;
 
-        sprite.setTextureRect(frame);
-        if(sprite_comp.flip)
+        if (sprite_comp.flip)
         {
-                frame.left -= frame.width;
-                if(frame.left  <= frame.width) {
-                        if(animation.islooped) 
-                        {
-                                frame.left = textureSize.x - frame.width;
-                        }
-                        else
-                        {
-                                frame.left = 0;
-                        }
-                        
-                        
-                }
+                animation.frame.left =  (animation.frame.left + abs(animation.frame.width)) % textureSize.x; 
+		sprite.setScale(-1.f, 1.f);
+		sprite.setOrigin(sprite.getGlobalBounds().width / 1.f, 0);
         }
         else
         {
-                frame.left += frame.width;
-                if(frame.left >= textureSize.x-frame.width)
-                {
-                        if(animation.islooped)
-                        {
-                                frame.left = 0;
-                        }
-                        else
-                        {
-                                frame.left = textureSize.x - frame.width;
-                        }
-                }
+                animation.frame.left = (animation.frame.left + animation.frame.width) % textureSize.x;
+		sprite.setScale(1.f, 1.f);
         }
+
+        sprite.setTextureRect(animation.frame);
+        elapsed = 0.0f;
+
+
 
 }
 
-bool SpriteRendererSystem::update(float dt)
-{
+bool SpriteRendererSystem::update(float dt) {
        entt::registry& entt_reg = scene->Reg();
        auto view = entt_reg.view<MoveComponent,SpriteComponent>();
        for( auto [entt,pos,sprite] : view.each())
@@ -136,5 +125,28 @@ bool SpriteRendererSystem::update(float dt)
 }
 
 
+bool AnimationStateSystem::update(float dt) {
+       entt::registry& entt_reg = scene->Reg();
+       auto view = entt_reg.view<SpriteComponent,AnimationPool,StateComponent>();
+       for( auto [entt,sprite_comp,pool_comp,state_comp] : view.each())
+       {
+               auto& pool = pool_comp.pool;
+               auto& current_anim = pool_comp.current;
+               auto& sprite = sprite_comp.Sprite;
+               auto& state = state_comp.state;
+               if (pool.find(state) != pool.end() && current_anim != state)
+               {
+                       current_anim = state;
+                       auto& texture = TextureLoader::getTexture(pool_comp.current);
+                       sprite_comp.Sprite.setTexture(texture);
+                       sprite_comp.Sprite.setTextureRect(pool[current_anim]);
+               }
+               
+       }
+        
+
+        return true;
+
+}
 
 

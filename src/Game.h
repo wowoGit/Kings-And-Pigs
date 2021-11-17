@@ -6,6 +6,7 @@
 //#include "SolidBoundaries.h"
 //#include "StickBoundaries.h"
 //#include "LevelController.h"
+#include "TextureLoader.h"
 #include "Systems.h"
 #include "Components.h"
 #include "Entity.h"
@@ -15,8 +16,9 @@ private:
 	sf::RenderWindow& window;
 	sf::Event ev;
 	std::unique_ptr<Entity> player;
-	sf::Texture tex;
 	std::unique_ptr<SpriteRendererSystem> spriteSystem;
+	std::unique_ptr<AnimationSystem> animSystem;
+	std::unique_ptr<AnimationStateSystem> animStateSystem;
 	/*BoundariesComponent* solidBounds;
 	BoundariesComponent* invisBounds;
 	BoundariesComponent* stickBounds;*/
@@ -50,7 +52,7 @@ Game(sf::RenderWindow& game_window) : Scene(game_window), window(game_window)
 	void renderPlayer();
 	void renderPigs();
 	void updatePigs();
-	bool render();
+	bool render(float dt);
 	const sf::RenderWindow& getWindow() const;
 	
 

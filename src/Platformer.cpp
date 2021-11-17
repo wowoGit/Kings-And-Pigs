@@ -14,7 +14,7 @@ int main()
 	{
 		sf::Time dt = clock.restart();
 		game.update(dt.asSeconds());
-		game.render();
+		game.render(dt.asSeconds());
 	}
 
 	//End of application

@@ -1,6 +1,7 @@
 #include "Systems.h"
 #include "TextureLoader.h"
 #include <iostream>
+//#define DEBUG  
 
 
 
@@ -82,7 +83,6 @@ bool AnimationSystem::update(float dt)
 void AnimationSystem::runAnimation(AnimationComponent& animation, SpriteComponent& sprite_comp, float dt)
 {
         elapsed +=dt;
-        std::cout<<elapsed << std::endl;
         if (elapsed < animation.speed)
         {
                 return;
@@ -90,19 +90,23 @@ void AnimationSystem::runAnimation(AnimationComponent& animation, SpriteComponen
         auto textureSize =sprite_comp.Sprite.getTexture()->getSize();
         auto& sprite  = sprite_comp.Sprite;
         auto& frame = animation.frame;
-
-        if (sprite_comp.flip)
+        switch (animation.dir)
         {
-                animation.frame.left =  (animation.frame.left + abs(animation.frame.width)) % textureSize.x; 
-		sprite.setScale(-1.f, 1.f);
-		sprite.setOrigin(sprite.getGlobalBounds().width / 1.f, 0);
-        }
-        else
-        {
-                animation.frame.left = (animation.frame.left + animation.frame.width) % textureSize.x;
+        case  ANIMATION_DIRECTION::STANDARD:
+                animation.frame.left = (animation.frame.left + animation.frame.width + 20) % textureSize.x;
 		sprite.setScale(1.f, 1.f);
+		//sprite.setOrigin(0, 0);
+                break;
+        
+        case ANIMATION_DIRECTION::FLIPPED:
+                animation.frame.left =  (animation.frame.left + abs(animation.frame.width)+ 20) % textureSize.x; 
+		sprite.setScale(-1.f, 1.f);
+		//sprite.setOrigin(sprite.getGlobalBounds().width / 1.f, 0);
+                break;
+        case ANIMATION_DIRECTION::NEUTRAL:
+                animation.frame.left =  (animation.frame.left + abs(animation.frame.width)+ 20) % textureSize.x; 
+                break;
         }
-
         sprite.setTextureRect(animation.frame);
         elapsed = 0.0f;
 
@@ -117,6 +121,21 @@ bool SpriteRendererSystem::update(float dt) {
        {
                sprite.Sprite.setPosition(pos.position);
                scene->Wind().draw(sprite.Sprite);
+               #ifdef DEBUG
+               sf::CircleShape circle;
+               circle.setFillColor(sf::Color::Green);
+               circle.setPosition(sprite.Sprite.getPosition());
+               circle.setRadius(5.f);
+               sf::RectangleShape sprite_outline;
+               sprite_outline.setSize({sprite.Sprite.getTextureRect().width, sprite.Sprite.getTextureRect().height});
+               sprite_outline.setOrigin(sprite_outline.getSize().x / 2, sprite_outline.getSize().y / 2);
+               sprite_outline.setOutlineColor(sf::Color::Green);
+               sprite_outline.setOutlineThickness(1.f);
+               sprite_outline.setFillColor(sf::Color::Transparent);
+               sprite_outline.setPosition(sprite.Sprite.getPosition());
+               scene->Wind().draw(circle);
+               scene->Wind().draw(sprite_outline);
+               #endif 
        }
         
 
@@ -127,8 +146,8 @@ bool SpriteRendererSystem::update(float dt) {
 
 bool AnimationStateSystem::update(float dt) {
        entt::registry& entt_reg = scene->Reg();
-       auto view = entt_reg.view<SpriteComponent,AnimationPool,StateComponent>();
-       for( auto [entt,sprite_comp,pool_comp,state_comp] : view.each())
+       auto view = entt_reg.view<SpriteComponent,AnimationPool,StateComponent, AnimationComponent>();
+       for( auto [entt,sprite_comp,pool_comp,state_comp, anim_comp] : view.each())
        {
                auto& pool = pool_comp.pool;
                auto& current_anim = pool_comp.current;
@@ -139,7 +158,8 @@ bool AnimationStateSystem::update(float dt) {
                        current_anim = state;
                        auto& texture = TextureLoader::getTexture(pool_comp.current);
                        sprite_comp.Sprite.setTexture(texture);
-                       sprite_comp.Sprite.setTextureRect(pool[current_anim]);
+                       sprite_comp.Sprite.setTextureRect(pool[current_anim].frame);
+                       anim_comp = pool[current_anim];
                }
                
        }

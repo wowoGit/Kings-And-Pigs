@@ -1,7 +1,7 @@
 #include "Game.h"
 #include <iostream>
 #include <random>
-#define DEBUG 
+#include "functions.hpp"
 void Game::initWindow()
 {
 	//this->window.setKeyRepeatEnabled(false);
@@ -13,13 +13,18 @@ void Game::initPlayer()
 	player = std::make_unique<Entity>(Scene::Reg().create(), this);
 	auto& texture = TextureLoader::loadFromFile("Sprites/king/Idle.png", "IDLE");
 	auto& texture1 = TextureLoader::loadFromFile("Sprites/king/Run.png", "RUN_RIGHT");
-	sf::IntRect rect(0,0,78,58);
+	auto& texture2 = TextureLoader::loadFromFile("Sprites/king/Run.png", "RUN_LEFT");
+	sf::IntRect rect(0,0,58,58);
 	sf::Sprite sprite(texture,rect);
-	std::map<std::string,sf::IntRect> animation_pool {{"IDLE", rect},{"RUN_RIGHT", rect}};
+	sprite.setOrigin(sf::Vector2f{58 / 2, 58 / 2});
+	auto runLeftAnim = createAnimation(rect, ANIMATION_DIRECTION::FLIPPED, .1f, true);
+	auto runRightAnim = createAnimation(rect, ANIMATION_DIRECTION::STANDARD, .1f, true);
+	auto idleAnim = createAnimation(rect, ANIMATION_DIRECTION::NEUTRAL, .1f, true);
+	std::map<std::string,AnimationComponent> animation_pool {{"IDLE", idleAnim},{"RUN_RIGHT", runRightAnim},{"RUN_LEFT", runLeftAnim}};
 
 	player->AddComponent<MoveComponent>(sf::Vector2f(100,100), sf::Vector2f());
-	player->AddComponent<SpriteComponent>(sprite,true);
-	player->AddComponent<AnimationComponent>(.1f,rect,false);
+	player->AddComponent<SpriteComponent>(sprite);
+	player->AddComponent<AnimationComponent>(.1f, ANIMATION_DIRECTION::STANDARD,rect, true);
 	player->AddComponent<StateComponent>("IDLE");
 	player->AddComponent<AnimationPool>(animation_pool,"IDLE");
 
@@ -148,6 +153,11 @@ bool Game::update(float dt)
 			{
 				auto& state = player->getComponent<StateComponent>();
 				state.state = "IDLE";
+			}
+			else if (ev.key.code == sf::Keyboard::B)
+			{
+				auto& state = player->getComponent<StateComponent>();
+				state.state = "RUN_LEFT";
 			}
 			else if (ev.key.code == sf::Keyboard::M)
 			{

@@ -12,12 +12,13 @@ struct TagComponent
 struct SpriteComponent
 {
     sf::Sprite Sprite;
-    bool flip; 
 };
 
+enum class ANIMATION_DIRECTION { STANDARD, FLIPPED, NEUTRAL};
 struct AnimationComponent
 {
     float speed;
+    ANIMATION_DIRECTION dir;
     sf::IntRect frame;
     bool islooped;
 
@@ -25,7 +26,7 @@ struct AnimationComponent
 
 struct AnimationPool
 {
-    std::map<std::string, sf::IntRect> pool;
+    std::map<std::string, AnimationComponent> pool;
     std::string current;
 };
 

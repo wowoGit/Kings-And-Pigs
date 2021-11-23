@@ -1,7 +1,8 @@
 #include "Systems.h"
+#include "DebugRenderer.h"
 #include "TextureLoader.h"
 #include <iostream>
-//#define DEBUG  
+#define DEBUG  
 
 
 
@@ -122,19 +123,8 @@ bool SpriteRendererSystem::update(float dt) {
                sprite.Sprite.setPosition(pos.position);
                scene->Wind().draw(sprite.Sprite);
                #ifdef DEBUG
-               sf::CircleShape circle;
-               circle.setFillColor(sf::Color::Green);
-               circle.setPosition(sprite.Sprite.getPosition());
-               circle.setRadius(5.f);
-               sf::RectangleShape sprite_outline;
-               sprite_outline.setSize({sprite.Sprite.getTextureRect().width, sprite.Sprite.getTextureRect().height});
-               sprite_outline.setOrigin(sprite_outline.getSize().x / 2, sprite_outline.getSize().y / 2);
-               sprite_outline.setOutlineColor(sf::Color::Green);
-               sprite_outline.setOutlineThickness(1.f);
-               sprite_outline.setFillColor(sf::Color::Transparent);
-               sprite_outline.setPosition(sprite.Sprite.getPosition());
-               scene->Wind().draw(circle);
-               scene->Wind().draw(sprite_outline);
+               DebugRenderer::render(sprite.Sprite, DebugType::CENTER, scene->Wind());
+               DebugRenderer::render(sprite.Sprite, DebugType::OUTLINE, scene->Wind());
                #endif 
        }
         

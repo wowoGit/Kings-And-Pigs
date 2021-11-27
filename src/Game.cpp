@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Tmx.h"
 #include <iostream>
 #include <random>
 #include "functions.hpp"
@@ -10,6 +11,8 @@ void Game::initWindow()
 
 void Game::initPlayer()
 {
+	Tmx::Map map;
+	map.ParseFile("maps/lvl1.tmx");
 	player = std::make_unique<Entity>(Scene::Reg().create(), this);
 	auto& texture = TextureLoader::loadFromFile("Sprites/king/Idle.png", "IDLE");
 	auto& texture1 = TextureLoader::loadFromFile("Sprites/king/Run.png", "RUN_RIGHT");
@@ -133,6 +136,7 @@ bool Game::update(float dt)
 	//Polling window events
 	while (this->window.pollEvent(this->ev))
 	{
+	
 		if (this->ev.type == sf::Event::Closed)
 			this->window.close();
 		else if (this->ev.type == sf::Event::KeyReleased)// �����-�������

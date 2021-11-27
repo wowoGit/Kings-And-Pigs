@@ -6,35 +6,6 @@
 
 
 
-bool PlayerInputSystem::update(float dt) 
-{
-        //POSSIBLY RELOCATE TO BASE CLASS CONSTRUCTOR
-        //entt::registry& entt_reg = scene->Reg();
-
-        //auto view = entt_reg.view<PlayerMoveComponent, MoveComponent, PlayerStateComponent>();
-        //auto player_entity = view.front();
-
-        //// get PlayerMoveComponent
-        //for(auto [player, player_mc, mc, sc] : view.each())
-        //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-        //{
-                //player_mc.button_A->execute(mc,sc);
-        //}
-        //else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-        //{
-                //player_mc.button_W->execute(mc,sc);
-        //}
-        //else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-        //{
-                //player_mc.button_S->execute(mc,sc);
-        //}
-        //else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-        //{
-                //player_mc.button_D->execute(mc,sc);
-        //}
-        
-        return true;
-}
 
 bool MoveSystem::update(float dt) 
 {
@@ -160,3 +131,53 @@ bool AnimationStateSystem::update(float dt) {
 }
 
 
+
+//bool AnimationStateSystem::update(float dt) {
+       //entt::registry& entt_reg = scene->Reg();
+       //auto view = entt_reg.view<SpriteComponent,AnimationPool,StateComponent, AnimationComponent>();
+       //for( auto [entt,sprite_comp,pool_comp,state_comp, anim_comp] : view.each())
+       //{
+               //auto& pool = pool_comp.pool;
+               //auto& current_anim = pool_comp.current;
+               //auto& sprite = sprite_comp.Sprite;
+               //auto& state = state_comp.state;
+               //if (pool.find(state) != pool.end() && current_anim != state)
+               //{
+                       //current_anim = state;
+                       //auto& texture = TextureLoader::getTexture(pool_comp.current);
+                       //sprite_comp.Sprite.setTexture(texture);
+                       //sprite_comp.Sprite.setTextureRect(pool[current_anim].frame);
+                       //anim_comp = pool[current_anim];
+               //}
+               
+       //}
+        
+
+        //return true;
+
+//}
+
+bool PlayerInputSystem::update(float dt) {
+       entt::registry& entt_reg = scene->Reg();
+       auto view = entt_reg.view<SpriteComponent,AnimationPool,StateComponent, AnimationComponent>();
+       for( auto [entt,sprite_comp,pool_comp,state_comp, anim_comp] : view.each())
+       {
+               auto& pool = pool_comp.pool;
+               auto& current_anim = pool_comp.current;
+               auto& sprite = sprite_comp.Sprite;
+               auto& state = state_comp.state;
+               if (pool.find(state) != pool.end() && current_anim != state)
+               {
+                       current_anim = state;
+                       auto& texture = TextureLoader::getTexture(pool_comp.current);
+                       sprite_comp.Sprite.setTexture(texture);
+                       sprite_comp.Sprite.setTextureRect(pool[current_anim].frame);
+                       anim_comp = pool[current_anim];
+               }
+               
+       }
+        
+
+        return true;
+
+}

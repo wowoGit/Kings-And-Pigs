@@ -6,7 +6,9 @@ file(GLOB all_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 )
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/include/tmxparser/lib/cmake")
 
+find_package(tmxparser REQUIRED)
 
 add_executable(${CMAKE_PROJECT_NAME} ${all_sources})
 
@@ -19,6 +21,6 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 ${PROJECT_SOURCE_DIR}/tinyxml2
 )
-target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC tinyxml2)
+target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include/tmxparser/lib/libtmxparser.dll.a)
 
-target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/include/tmxparser/include)

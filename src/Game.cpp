@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "Tmx.h"
 #include <iostream>
 #include <random>
 #include "functions.hpp"
@@ -11,8 +10,7 @@ void Game::initWindow()
 
 void Game::initPlayer()
 {
-	Tmx::Map map;
-	map.ParseFile("maps/lvl1.tmx");
+	map = std::make_unique<Map>("maps/lvl1.tmx");
 	player = std::make_unique<Entity>(Scene::Reg().create(), this);
 	auto& texture = TextureLoader::loadFromFile("Sprites/king/Idle.png", "IDLE");
 	auto& texture1 = TextureLoader::loadFromFile("Sprites/king/Run.png", "RUN_RIGHT");
@@ -215,6 +213,7 @@ void Game::updatePigs()
 bool Game::render(float dt)
 {
 	this->window.clear();
+	map->render(window);
 	animSystem->update(dt);
 	animStateSystem->update(102);
 	spriteSystem->update(0.f);

@@ -10,11 +10,13 @@
 #include "Systems.h"
 #include "Components.h"
 #include "Entity.h"
+#include "Map.h"
 class Game : public Scene
 {
 private:
 	sf::RenderWindow& window;
 	sf::Event ev;
+	std::unique_ptr<Map> map;
 	std::unique_ptr<Entity> player;
 	std::unique_ptr<SpriteRendererSystem> spriteSystem;
 	std::unique_ptr<AnimationSystem> animSystem;

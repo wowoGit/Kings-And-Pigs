@@ -4,7 +4,7 @@ int main()
 {
 	srand(static_cast<unsigned>(time(0)));
 	sf::RenderWindow window;
-	window.create(sf::VideoMode(800, 600), "Game 4", sf::Style::Close | sf::Style::Titlebar);
+	window.create(sf::VideoMode(1024, 1080), "Game 4", sf::Style::Close | sf::Style::Titlebar);
 	window.setFramerateLimit(60);
 	sf::Clock clock;
 	Game game(window);

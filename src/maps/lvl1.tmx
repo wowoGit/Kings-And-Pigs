@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="20" height="24" tilewidth="32" tileheight="32" infinite="0" nextlayerid="14" nextobjectid="81">
  <tileset firstgid="1" name="Terrain (32x32)" tilewidth="32" tileheight="32" tilecount="247" columns="19">
-  <image source="../../tilemap/Terrain.png" width="608" height="416"/>
+  <image source="tilemap/Terrain.png" width="608" height="416"/>
   <tile id="20">
    <objectgroup>
     <object id="1" type="solid" x="0" y="0" width="32" height="32"/>
@@ -429,21 +429,16 @@
   </tile>
  </tileset>
  <tileset firstgid="248" name="Decorations (32x32)" tilewidth="32" tileheight="32" tilecount="42" columns="7">
-  <image source="../../tilemap/Decorations.png" width="224" height="192"/>
+  <image source="tilemap/Decorations.png" width="224" height="192"/>
  </tileset>
  <layer id="3" name="decor_wood" width="20" height="24">
   <data encoding="base64" compression="zlib">
-   eJzVlL0NwjAQhW8JoIABMAUMAAwDFZskFDAAUMAAkDEQNQtxFrZ0err4LyngpK/0p+eXiw0RmT9gzKw6MhG+GVMxdSF7Zgq+E3Mu5NKD78A8HE0PPptpwAwdiwyfzNKWyWT4MIuWKdfXluVXfEtK22Xvu4uuj+C7UvouW+ai4xG4NX9OF9Lt/dhFaJdj78Na8dlMG2br2CkdSuzI9+Gm3DPWIfpy/r9YhyU+gvM4XX1v5inQOgt9Y/S96LtnntRMcqQPdzhGgzIK91cyH612se0=
-  </data>
- </layer>
- <layer id="1" name="main" width="20" height="24">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRgAy0hoB576CYWKCBxJYGYhskbItkHghXQDGx5lHDf9QwTxSIxaBYH4d5rAQwups0kTBMjR6SPaRgfTTzACBzC1I=
+   eJzVlLENAjEMRb0EUMAAhAIGAIaBik2A4pBogeJO1HBjIGoWwpESyTLOxT6ugOK1T98/0XcA4P6AIbL4khHxTZAtsmvJHhkz3wk5t+TSga9A7oG6A5/P1EP6gZnBR7OkMjmDj2eRMll9qSy/4puD7i9H3410fWC+EvR/2TMlHQ+YW/JbuqDu6OddNP3l3D4sBZ/PtELWgY3QIe+T7kMl3Jnr0PLe1g6jr8i8RcrH9zR2ViZu1ezVC3kQcp7cXj2Ra7hPe2PTXvnbjoEKPvfJslf8D2vhe/UG3OK3Jw==
   </data>
  </layer>
  <layer id="2" name="decor_wf" width="20" height="24">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFgxEYAXESFCcPsFvoBTZgEWNkZGBgAmJmRro7BzsAuuM/EpeFQneJMiLM+Y9fKU2AINBeISqGrQTQLMnBEldAwD2I3IIM8LqLSDffhmJCgJ1M8ziA+jiBmAtNPx8B8/iB8gIkhju2vA8DYkCzxAdpPFIKAGCtCUQ=
+   eJxjYBgFo2BwgA1YxBgZGRiYgJiZke7OwQ6A7viPxGWh0F2ijAhz/uNXShMgCLRXiIphKwE0S3KwxBUQcA8ityADvO4i0s23oZgQYCfTPA6gPk4g5kLTz0fAPH6gvACJ4Y4t78OAGNAs8UEaj5QCAHPJB+s=
   </data>
  </layer>
  <objectgroup id="5" name="enemy">

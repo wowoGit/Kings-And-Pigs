@@ -6,7 +6,7 @@ So, I decided to start basically from scratch using a more structured approach a
 I've taken an already existing implementaion for such system - [Entt](https://github.com/skypjack/entt/). Now, this ECS-based version on Kings-And-Pigs with be a full on 
 game developing project I will do my best to develop and in the same time use as a playground to implement and learn best programming practices.
 ## Branches
-- `main`  - Purely referencial, the moment I got stuck using OOP.
+- `main`  - Purely referencial, the moment I got stuck using OOP. **(CURRENTLY DOESN'T BUILD)**.
 - `feature` - the ACTUAL main branch I am constantly pushing to, this is the Data Driven version of the game I am developing with the help of Entt.
 
 ## Dependencies 

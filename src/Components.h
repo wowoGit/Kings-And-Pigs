@@ -34,65 +34,22 @@ struct MoveComponent
 {
     sf::Vector2f position;
     sf::Vector2f velocity;
-    float speed;
+    sf::Vector2f current_speed; 
+    sf::Vector2f max_speed; 
 };
+
+struct PhysicsComponent
+{
+    float resistance;
+    float gravity;
+};
+
 
 struct HitBoxComponent
 {
     sf::FloatRect hitbox;
 };
 
-//struct PlayerMoveComponent
-//{
-    //MoveCommand* button_W;
-    //MoveCommand* button_S;
-    //MoveCommand* button_A;
-    //MoveCommand* button_D;
-    //PlayerMoveComponent(MoveComponent& mvcomp)
-    //{
-        //button_A = new MoveLeftCommand();
-        //button_W = new MoveUpCommand();
-        //button_S = new MoveDownCommand();
-        //button_D = new MoveRightCommand();
-    //}
-    //PlayerMoveComponent(PlayerMoveComponent& other) = default;
-    //~PlayerMoveComponent() 
-    //{
-        //delete button_W;
-        //delete button_S;
-        //delete button_A;
-        //delete button_D;
-    //}
-    
-    //void setA(MoveCommand* command)
-    //{
-        //if(button_A)
-        //delete button_A;
-
-        //button_A = command;
-    //}
-    //void setW(MoveCommand* command)
-    //{
-        //if(button_W)
-        //delete button_W;
-
-        //button_W = command;
-    //}
-    //void setD(MoveCommand* command)
-    //{
-        //if(button_D)
-        //delete button_D;
-
-        //button_D = command;
-    //}
-    //void setS(MoveCommand* command)
-    //{
-        //if(button_S)
-        //delete button_S;
-
-        //button_S = command;
-    //}
-//};
 
 struct CollidableComponent
 {
@@ -103,3 +60,9 @@ struct StateComponent
 {
     std::string state;
 };
+
+
+// Tag components for FSM in the future
+
+struct PlayerTag
+{ bool placeholder;}; //for some reason component with no fields doesnt work (WTFF)

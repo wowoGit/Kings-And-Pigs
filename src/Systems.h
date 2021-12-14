@@ -57,3 +57,10 @@ class SpriteRendererSystem : public System
     SpriteRendererSystem(Scene* currentScene) : System(currentScene) {};
     virtual bool update(float dt) override;
 };
+
+class PhysicsSystem : public System
+{
+    public:
+    PhysicsSystem(Scene* currentScene) : System(currentScene) {};
+    virtual bool update(float dt) override;
+};

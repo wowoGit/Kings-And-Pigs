@@ -1,11 +1,5 @@
 #pragma once
 #include "SFML/Graphics.hpp"
-//#include "Pig.h"
-//#include "ActiveEnemies.h"
-//#include "InvisibleBoundaries.h"
-//#include "SolidBoundaries.h"
-//#include "StickBoundaries.h"
-//#include "LevelController.h"
 #include "TextureLoader.h"
 #include "Systems.h"
 #include "Components.h"
@@ -16,10 +10,14 @@ class Game : public Scene
 private:
 	sf::RenderWindow& window;
 	sf::Event ev;
+	//this is all temporary just to check if everything is working correctly
 	std::unique_ptr<Map> map;
 	std::unique_ptr<Entity> player;
 	std::unique_ptr<SpriteRendererSystem> spriteSystem;
 	std::unique_ptr<AnimationSystem> animSystem;
+	std::unique_ptr<MoveSystem> moveSystem;
+	std::unique_ptr<PhysicsSystem> physicsSystem;
+	std::unique_ptr<PlayerInputSystem> inputSystem;
 	std::unique_ptr<AnimationStateSystem> animStateSystem;
 	/*BoundariesComponent* solidBounds;
 	BoundariesComponent* invisBounds;

@@ -5,11 +5,12 @@
 class Entity
 {
 public:
+	entt::entity EntityID { entt::null};
 	Entity(entt::entity id, Scene* scene) : EntityID(id), _scene(scene)
 	{};
 	Entity(Entity& other) = default;
 	Entity() = default;	
-	
+
 	template<typename T, typename ... Args >
 	T& AddComponent(Args&& ... args)
 	{
@@ -36,8 +37,6 @@ public:
 	}
 
 private:
-	entt::entity EntityID { entt::null};
 	Scene* _scene;
-	sf::Sprite sprite;	
 };
 

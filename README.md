@@ -1,6 +1,6 @@
 # Kings And Pigs (2D Platformer, written in C++, rendering with SFML)
 # About 
-This is a game I've started writing as my final project for a C++ cource I've taken, I couldn't finish it in time due to poor architectural design,
+This is a game I've started writing as my final project for a C++ course I've taken, I couldn't finish it in time due to poor architectural design,
 therefore I quickly got lost in the spaghetti code with multiple God-classes and an inability to develop new features.
 So, I decided to start basically from scratch using a more structured approach and discovered Entity-Component-System which was much easier to handle and build upon.
 I've taken an already existing implementaion for such system - [Entt](https://github.com/skypjack/entt/). Now, this ECS-based version on Kings-And-Pigs with be a full on 

@@ -45,7 +45,7 @@ game developing project I will do my best to develop and in the same time use as
 - [ ] Interraction with the enemies.
 - [ ] TBD...
 # Build
-As I mentioned I am using CMake to generate build files for my project, it will not build on Linux in the moment but i am planning on changing it in the few days.
+As I mentioned I am using CMake to generate build files for my project, it will not build on Linux at the moment but i am planning on changing it in the few days.
 ## IMPORTANT!!! 
 SFML requires specific compliers and versions for a specific library release. The libs I am using require MinGW GCC 7.3.0 x64 which can be found [here](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/7.3.0/threads-posix/seh/x86_64-7.3.0-release-posix-seh-rt_v5-rev0.7z/download).
 ## Build process 

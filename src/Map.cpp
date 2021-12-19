@@ -13,9 +13,8 @@ void Map::map_tileset::fillTileRects()
     {
         for (int y = 0; y < columns; y++)
         {
-            Tile tile;
-            tile.rect = sf::IntRect(y * tile_width, x * tile_height,tile_width,tile_height);
-            tiles_vec.push_back(tile);
+            sf::IntRect rect(y * tile_width, x * tile_height,tile_width,tile_height);
+            tiles_vec.push_back(rect);
             //IMPLEMENT: binding components depending on a tile type(factory method?).
         }
         
@@ -39,11 +38,6 @@ void Map::render(sf::RenderWindow& wind)
 
 void Map::ParseMap()
 {
-    map_params.height = map_ptr->GetHeight();
-    map_params.width = map_ptr->GetWidth();
-
-    tile_params.height = map_ptr->GetTileHeight();
-    tile_params.width = map_ptr->GetTileWidth();
 
     for (int i = 0; i < map_ptr->GetNumTilesets(); i++)
     {
@@ -76,10 +70,10 @@ void Map::ParseMap()
                }
                const auto& tileset = tilesets.at(tileset_id);
                int tile_id = tileLayer->GetTileId(x,y);
-               const Map::Tile& tile = tileset.tiles_vec.at(tile_id);
+               const sf::IntRect rect = tileset.tiles_vec.at(tile_id);
 
                //load tile sprite and corresponding rect
-               sf::IntRect tile_rect = tile.rect;
+               sf::IntRect tile_rect = rect;
                sf::Sprite tile_sprite;
 
                //get tileset texture and populate layers' tile collection
@@ -87,14 +81,24 @@ void Map::ParseMap()
                const auto& tileset_texture = TextureLoader::loadFromImage(tileset.image, texture_name);
                tile_sprite.setTexture(tileset_texture);
                tile_sprite.setTextureRect(tile_rect);
-
-               tile_sprite.setPosition(x * tile.rect.width, y * tile.rect.height);
+               tile_sprite.setPosition(rect.getPosition().x,rect.getPosition().y);
                layer.tiles.push_back(tile_sprite);
             }
         }
         map_layers.push_back(std::move(layer));
     }
-    
+
+
+    for (int i = 0; i < map_ptr->GetNumObjectGroups(); i++)
+    {
+        const auto& object_group = map_ptr->GetObjectGroup(i);
+
+        for(size_t object_idx = 0; i < object_group->GetNumObjects(); ++object_idx)
+        {
+            
+        }
+        
+    }
     
     
     

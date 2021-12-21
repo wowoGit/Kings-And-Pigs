@@ -14,7 +14,6 @@ void Game::initPlayer()
 	map = std::make_unique<GameMap::Map>("maps/lvl1.tmx");
 	EntityFactory factory(this);
 	factory.createMapTiles(map->getMapLayers());
-	factory.createMapObjects(map->getObjects());
 	spriteSystem = std::make_unique<SpriteRendererSystem>(this);
 	animStateSystem = std::make_unique<AnimationStateSystem>(this);
 	animSystem = std::make_unique<AnimationSystem>(this);

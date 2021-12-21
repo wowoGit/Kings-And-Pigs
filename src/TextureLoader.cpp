@@ -5,11 +5,16 @@ std::map<std::string,sf::Texture> TextureLoader::textures = {};
 
 const sf::Texture& TextureLoader::loadFromImage(const sf::Image& image, std::string texture_name) {
     
-        sf::Texture texture;
-        texture.loadFromImage(image);
-        textures[texture_name] = std::move(texture);
+    auto it = textures.find(texture_name);
+    if(it != textures.end())
+    {
+        return it->second;
+    }
+    sf::Texture texture;
+    texture.loadFromImage(image);
+    textures[texture_name] = std::move(texture);
 
-        return textures[texture_name];
+    return textures[texture_name];
     
 }
 

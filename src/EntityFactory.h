@@ -9,10 +9,11 @@ class EntityFactory
 {
 public:
     EntityFactory(Scene* scene_ptr) : scene(scene_ptr) {};
-    void createMapObjects(const std::vector<Tmx::Object>& object_vec);
-    void createMapTiles(const std::vector<GameMap::map_layer>& layer_vec);
+    void createMapObjects(std::vector<Tmx::Object> object_vec);
+    void createMapTiles(std::vector<GameMap::map_layer> layer_vec);
 private:
     Scene* scene;
+    std::vector<Entity> entity_vec;
     Entity createItem();
 
 

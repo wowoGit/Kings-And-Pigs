@@ -1,3 +1,4 @@
+#pragma once
 #include "Tmx.h"
 #include <SFML/Graphics.hpp> 
 #include "Components.h"
@@ -10,13 +11,14 @@ namespace GameMap
 {
 
 
-
+enum class TileType { SOLID, WATER, QUICKSAND, DECORATION, UNDEFINED}; 
 
 struct layer_tile
 {
     TileType type;
     const sf::Texture& texture_ref;
     const sf::IntRect rect;
+    const sf::Vector2f sprite_pos;
 };
 
 
@@ -38,7 +40,6 @@ struct map_tileset{
 
 // There will be different tile types each of those types will describe a specific set a components to be binded to.
 // For now i will be using only the solid type (The lack of free-to-use tilesets is DEFINITELY not the reason).
-enum class TileType { SOLID, WATER, QUICKSAND, DECORATION, UNDEFINED}; 
 
 class Map
 {
@@ -60,9 +61,8 @@ class Map
         
         
     }
-    void render(sf::RenderWindow& wind);
-    const std::vector<Tmx::Object>& getObjects();
-    const std::vector<map_layer>& getMapLayers();
+    std::vector<Tmx::Object> getObjects();
+    std::vector<map_layer> getMapLayers();
 
     private:
     const map_tileset& findTilesetbyGID(int gid);

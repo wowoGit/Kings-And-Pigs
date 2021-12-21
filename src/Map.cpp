@@ -21,19 +21,6 @@ void GameMap::map_tileset::fillTileRects()
     }
 }
 
-void GameMap::Map::render(sf::RenderWindow& wind)
-{
-    int counter_row = 0;
-    int countercol=0;
-    for(const auto& layer : map_layers)   
-    {
-        for(const auto& tile : layer.tiles)
-        {
-            wind.draw(tile);
-        }
-    }
-}
-
 
 
 void GameMap::Map::ParseMap()
@@ -72,9 +59,10 @@ void GameMap::Map::ParseMap()
 
                 int tile_id = tileLayer->GetTileId(x,y);
                 const auto& map_tile = tileLayer->GetTile(tile_id);
-                const auto& tileset_tile = tileset.tileset_info.GetTile(map_tile.gid);
-                TileType type;
-                const std::string tile_type = tileset_tile->GetType();
+                const auto& tileset_tile = tileset.tileset_info.GetTile(map_tile.id);
+                TileType type = TileType::UNDEFINED;
+                if(tileset_tile){
+                const auto& tile_type = tileset_tile->GetType();
                 if ( tile_type != "")
                 {
                     auto it = tileTypeMap.find(tile_type);
@@ -83,31 +71,22 @@ void GameMap::Map::ParseMap()
                     {
                         type = it->second;
                     }
-                    else 
-                    {
-                        type = TileType::UNDEFINED;
-                    }
-
                 }
                 else 
                 {
-                    std::cerr << "Tile with gid = " << map_tile.gid << " did not have a type. Was that intended?";
+                    std::cerr << "Tile with gid = " << map_tile.gid << " did not have a type. Was that intended?\n";
+                }
                 }
 
-
-
                 //load tile sprite and corresponding rect
-                sf::Sprite tile_sprite;
                 const sf::IntRect rect = tileset.tiles_vec.at(tile_id);
 
-                //get tileset texture and populate layers' tile collection
                 const auto texture_name = tileset.tileset_info.GetName();
                 const auto& tileset_texture = TextureLoader::loadFromImage(tileset.image, texture_name);
-                tile_sprite.setTexture(tileset_texture);
-                tile_sprite.setTextureRect(rect);
-                tile_sprite.setPosition(x * rect.width,y*rect.height);
-                
-                layer_tile tile{type, tileset_texture, rect};
+
+                sf::Vector2f sprite_pos(x* rect.width, y * rect.height);
+
+                layer_tile tile{type, tileset_texture, rect, sprite_pos};
                 layer.tiles.push_back(tile);
             }
         }
@@ -157,12 +136,12 @@ const GameMap::map_tileset& GameMap::Map::findTilesetbyGID(int gid)
     }
         
 }
-const std::vector<Tmx::Object>& GameMap::Map::getObjects() 
+std::vector<Tmx::Object> GameMap::Map::getObjects() 
 {
     return map_objects;
 }
 
-const std::vector<GameMap::map_layer>& GameMap::Map::getMapLayers() 
+std::vector<GameMap::map_layer> GameMap::Map::getMapLayers() 
 {
     return map_layers;
 }

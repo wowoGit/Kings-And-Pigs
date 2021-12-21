@@ -29,29 +29,43 @@ void EntityFactory::createHero(const Tmx::Object& obj) {
 	player.AddComponent<AnimationComponent>(.1f, ANIMATION_DIRECTION::STANDARD,rect, true);
 	player.AddComponent<StateComponent>("IDLE");
 	player.AddComponent<AnimationPool>(animation_pool,"IDLE");
+	entity_vec.push_back(player);
 }
 
-void EntityFactory::createMapObjects(const std::vector<Tmx::Object>& object_vec) {
+void EntityFactory::createMapObjects(std::vector<Tmx::Object> object_vec) {
     
 	for(const auto& obj : object_vec)
 	{
+		if(obj.GetName() == "hero")
+		{
+			createHero(obj);
+		}
 		// if object.name == "blalala" generate a corresponding entity with a set of components
 	}
 }
 
-void EntityFactory::createMapTiles(const std::vector<GameMap::map_layer>& layer_vec) {
-    
+void EntityFactory::createMapTiles(std::vector<GameMap::map_layer> layer_vec) {
+	
+	auto& reg = scene->Reg();
 	for (const auto& layer : layer_vec)
 	{
 		for( const auto& tile : layer.tiles)
 		{
+			sf::Sprite tile_sprite(tile.texture_ref,tile.rect);
+			tile_sprite.setPosition(tile.sprite_pos);
+			Entity ent(reg.create(), scene);
+			ent.AddComponent<SpriteComponent>(tile_sprite);
 			switch(tile.type)
 			{
 				case GameMap::TileType::SOLID:
-					//generate SOLID tile with a set of components...
+					sf::IntRect collidableBody(tile.rect);
+					collidableBody.left = tile.sprite_pos.x;
+					collidableBody.top = tile.sprite_pos.y;
+					ent.AddComponent<CollidableComponent>(collidableBody);
 					break;
 				//...
 			}
+			entity_vec.push_back(ent);
 		}
 	}
 }

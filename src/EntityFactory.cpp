@@ -1,9 +1,10 @@
 #include "EntityFactory.h"
 
 
-Entity EntityFactory::createMainCharacter(const Tmx::Object & playerobj)
-{
 
+
+void EntityFactory::createHero(const Tmx::Object& obj) {
+    
 	Entity player(scene->Reg().create(),scene);
 	auto& texture_idle = TextureLoader::loadFromFile("Sprites/king/Idle.png", "IDLE");
 	auto& texture_run = TextureLoader::loadFromFile("Sprites/king/Run.png", "RUN_LEFT");
@@ -30,6 +31,27 @@ Entity EntityFactory::createMainCharacter(const Tmx::Object & playerobj)
 	player.AddComponent<AnimationPool>(animation_pool,"IDLE");
 }
 
-Entity EntityFactory::createMapTile(const Tmx::Tile& tile) 
-{
+void EntityFactory::createMapObjects(const std::vector<Tmx::Object>& object_vec) {
+    
+	for(const auto& obj : object_vec)
+	{
+		// if object.name == "blalala" generate a corresponding entity with a set of components
+	}
+}
+
+void EntityFactory::createMapTiles(const std::vector<GameMap::map_layer>& layer_vec) {
+    
+	for (const auto& layer : layer_vec)
+	{
+		for( const auto& tile : layer.tiles)
+		{
+			switch(tile.type)
+			{
+				case GameMap::TileType::SOLID:
+					//generate SOLID tile with a set of components...
+					break;
+				//...
+			}
+		}
+	}
 }

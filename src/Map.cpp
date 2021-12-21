@@ -1,6 +1,6 @@
 #include "Map.h"
 
-void Map::map_tileset::fillTileRects()
+void GameMap::map_tileset::fillTileRects()
 {
 
     const auto total_tiles = tileset_info.GetTileCount();
@@ -21,7 +21,7 @@ void Map::map_tileset::fillTileRects()
     }
 }
 
-void Map::render(sf::RenderWindow& wind)
+void GameMap::Map::render(sf::RenderWindow& wind)
 {
     int counter_row = 0;
     int countercol=0;
@@ -36,7 +36,7 @@ void Map::render(sf::RenderWindow& wind)
 
 
 
-void Map::ParseMap()
+void GameMap::Map::ParseMap()
 {
 
     for (int i = 0; i < map_ptr->GetNumTilesets(); i++)
@@ -56,33 +56,59 @@ void Map::ParseMap()
 
     for (int i = 0; i < map_ptr->GetNumTileLayers(); i++)
     {
-        const auto tileLayer = map_ptr->GetTileLayer(i);
+        const auto& tileLayer = map_ptr->GetTileLayer(i);
         map_layer layer;
         for (int y = 0; y < tileLayer->GetHeight(); ++y)
         {
             for (int x = 0; x < tileLayer->GetWidth(); ++x)
             {
                 //get tileset id for a specific tile in a layer
-               int tileset_id = tileLayer->GetTileTilesetIndex(x,y);
-               if(tileset_id == -1)
-               {
-                   continue;
-               }
-               const auto& tileset = tilesets.at(tileset_id);
-               int tile_id = tileLayer->GetTileId(x,y);
-               const sf::IntRect rect = tileset.tiles_vec.at(tile_id);
+                int tileset_id = tileLayer->GetTileTilesetIndex(x,y);
+                if(tileset_id == -1)
+                {
+                    continue;
+                }
+                const auto& tileset = tilesets.at(tileset_id);
 
-               //load tile sprite and corresponding rect
-               sf::IntRect tile_rect = rect;
-               sf::Sprite tile_sprite;
+                int tile_id = tileLayer->GetTileId(x,y);
+                const auto& map_tile = tileLayer->GetTile(tile_id);
+                const auto& tileset_tile = tileset.tileset_info.GetTile(map_tile.gid);
+                TileType type;
+                const std::string tile_type = tileset_tile->GetType();
+                if ( tile_type != "")
+                {
+                    auto it = tileTypeMap.find(tile_type);
+                    
+                    if (it != tileTypeMap.end())
+                    {
+                        type = it->second;
+                    }
+                    else 
+                    {
+                        type = TileType::UNDEFINED;
+                    }
 
-               //get tileset texture and populate layers' tile collection
-               const auto texture_name = tileset.tileset_info.GetName();
-               const auto& tileset_texture = TextureLoader::loadFromImage(tileset.image, texture_name);
-               tile_sprite.setTexture(tileset_texture);
-               tile_sprite.setTextureRect(tile_rect);
-               tile_sprite.setPosition(rect.getPosition().x,rect.getPosition().y);
-               layer.tiles.push_back(tile_sprite);
+                }
+                else 
+                {
+                    std::cerr << "Tile with gid = " << map_tile.gid << " did not have a type. Was that intended?";
+                }
+
+
+
+                //load tile sprite and corresponding rect
+                sf::Sprite tile_sprite;
+                const sf::IntRect rect = tileset.tiles_vec.at(tile_id);
+
+                //get tileset texture and populate layers' tile collection
+                const auto texture_name = tileset.tileset_info.GetName();
+                const auto& tileset_texture = TextureLoader::loadFromImage(tileset.image, texture_name);
+                tile_sprite.setTexture(tileset_texture);
+                tile_sprite.setTextureRect(rect);
+                tile_sprite.setPosition(x * rect.width,y*rect.height);
+                
+                layer_tile tile{type, tileset_texture, rect};
+                layer.tiles.push_back(tile);
             }
         }
         map_layers.push_back(std::move(layer));
@@ -93,9 +119,10 @@ void Map::ParseMap()
     {
         const auto& object_group = map_ptr->GetObjectGroup(i);
 
-        for(size_t object_idx = 0; i < object_group->GetNumObjects(); ++object_idx)
-        {
-            
+        for(size_t object_idx = 0; object_idx < object_group->GetNumObjects(); ++object_idx)
+        {            
+            const auto& object = object_group->GetObject(object_idx);
+            map_objects.push_back(*object);
         }
         
     }
@@ -104,7 +131,7 @@ void Map::ParseMap()
     
 }
 
-const Map::map_tileset &Map::findTilesetbyGID(int gid)
+const GameMap::map_tileset& GameMap::Map::findTilesetbyGID(int gid)
 {
     if (tilesets.empty())
     {
@@ -130,3 +157,13 @@ const Map::map_tileset &Map::findTilesetbyGID(int gid)
     }
         
 }
+const std::vector<Tmx::Object>& GameMap::Map::getObjects() 
+{
+    return map_objects;
+}
+
+const std::vector<GameMap::map_layer>& GameMap::Map::getMapLayers() 
+{
+    return map_layers;
+}
+

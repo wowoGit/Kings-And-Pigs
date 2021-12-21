@@ -44,9 +44,10 @@ bool ColliderSystem::update(float dt)
 
 bool AnimationSystem::update(float dt) 
 {
-       entt::registry& entt_reg = scene->Reg();
-       auto view = entt_reg.view<AnimationComponent, SpriteComponent>();
-
+        entt::registry& entt_reg = scene->Reg();
+        auto view = entt_reg.view<AnimationComponent, SpriteComponent>();
+        
+        
         for(auto [entity, animation,sprite] : view.each())
         {
                 runAnimation(animation,sprite,dt);

@@ -44,4 +44,5 @@ const sf::Texture& TextureLoader::loadFromFile(const std::string filename, std::
     texture.loadFromFile(filename);
     textures[texture_name] = std::move(texture);
 
+    return textures[texture_name];
 }

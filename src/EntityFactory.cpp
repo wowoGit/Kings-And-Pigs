@@ -9,7 +9,7 @@ void EntityFactory::createHero(const Tmx::Object& obj) {
 	const auto& texture_idle = TextureLoader::loadFromFile("Sprites/king/Idle.png", "IDLE");
 	const auto& texture_run = TextureLoader::loadFromFile("Sprites/king/Run.png", "RUN_LEFT");
 	const auto& texture_jump = TextureLoader::loadFromFile("Sprites/king/Jump.png", "JUMP");
-	//auto& texture_run_copy_ref = TextureLoader::bindTexOnMultAnim("RUN_RIGHT", texture_run);
+	auto& texture_run_copy_ref = TextureLoader::bindTexOnMultAnim("RUN_RIGHT", texture_run);
 	sf::IntRect rect(0,0,58,58);
 	sf::Sprite sprite(texture_idle,rect);
 	sprite.setPosition(100.f,100.f);
@@ -20,6 +20,7 @@ void EntityFactory::createHero(const Tmx::Object& obj) {
 	auto jumpAnim = createAnimation(rect, ANIMATION_DIRECTION::NEUTRAL, .1f, true);
 	std::map<std::string,AnimationComponent> animation_pool {{"IDLE", idleAnim},
 															{"RUN_LEFT", runLeftAnim},
+															{"RUN_RIGHT", runRightAnim},
 															{"JUMP", jumpAnim}};
 	player.AddComponent<MoveComponent>(sf::Vector2f(100,100), sf::Vector2f(0,0),sf::Vector2f(0.f,0.f), sf::Vector2f(100.f,50.f));
 	player.AddComponent<PhysicsComponent>(0.85f,1.5f);

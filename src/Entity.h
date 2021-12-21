@@ -8,7 +8,6 @@ public:
 	entt::entity EntityID { entt::null};
 	Entity(entt::entity id, Scene* scene) : EntityID(id), _scene(scene)
 	{};
-	Entity(Entity& other) = default;
 	Entity() = default;	
 
 	template<typename T, typename ... Args >

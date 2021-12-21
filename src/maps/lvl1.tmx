@@ -427,6 +427,7 @@
     <object id="1" type="solid" x="0" y="0" width="32" height="32"/>
    </objectgroup>
   </tile>
+  <tile id="155" type="solid"/>
  </tileset>
  <tileset firstgid="248" name="Decorations (32x32)" tilewidth="32" tileheight="32" tilecount="42" columns="7">
   <image source="tilemap/Decorations.png" width="224" height="192"/>

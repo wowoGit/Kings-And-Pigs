@@ -10,12 +10,13 @@
 bool MoveSystem::update(float dt) 
 {
         entt::registry& entt_reg = scene->Reg();
-        auto view = entt_reg.view<MoveComponent>();
+        auto view = entt_reg.view<MoveComponent,SpriteComponent>();
 
-        for(auto [entity, mc] : view.each())
+        for(auto [entity, mc,sprite] : view.each())
         {
                 mc.velocity += mc.current_speed * dt;
                 mc.position +=mc.velocity;
+                sprite.Sprite.move(mc.velocity);
         }
 
         return true;
@@ -43,9 +44,10 @@ bool ColliderSystem::update(float dt)
 
 bool AnimationSystem::update(float dt) 
 {
-       entt::registry& entt_reg = scene->Reg();
-       auto view = entt_reg.view<AnimationComponent, SpriteComponent>();
-
+        entt::registry& entt_reg = scene->Reg();
+        auto view = entt_reg.view<AnimationComponent, SpriteComponent>();
+        
+        
         for(auto [entity, animation,sprite] : view.each())
         {
                 runAnimation(animation,sprite,dt);
@@ -88,10 +90,9 @@ void AnimationSystem::runAnimation(AnimationComponent& animation, SpriteComponen
 
 bool SpriteRendererSystem::update(float dt) {
        entt::registry& entt_reg = scene->Reg();
-       auto view = entt_reg.view<MoveComponent,SpriteComponent>();
-       for( auto [entt,pos,sprite] : view.each())
+       auto view = entt_reg.view<SpriteComponent>();
+       for( auto [entt,sprite] : view.each())
        {
-               sprite.Sprite.move(pos.velocity);
                scene->Wind().draw(sprite.Sprite);
                #ifdef DEBUG
                DebugRenderer::render(sprite.Sprite, DebugType::CENTER, scene->Wind());
@@ -161,9 +162,9 @@ bool PlayerInputSystem::update(float dt) {
        entt::registry& entt_reg = scene->Reg();
        //This is a temporary version to test the physics
         auto view = entt_reg.view<PlayerTag, MoveComponent, StateComponent>();
-        auto player = view.front();
-        auto& mc =  entt_reg.get<MoveComponent>(player);
-        auto& state =  entt_reg.get<StateComponent>(player);
+        for(auto [player,tag,mc,state] : view.each())
+        {
+
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
         {
                 mc.current_speed.y += -mc.max_speed.y;
@@ -193,6 +194,7 @@ bool PlayerInputSystem::update(float dt) {
                 state.state = "IDLE";
         }
         
+        }
         return true;
 
 }

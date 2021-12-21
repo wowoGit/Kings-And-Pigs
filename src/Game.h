@@ -11,7 +11,7 @@ private:
 	sf::RenderWindow& window;
 	sf::Event ev;
 	//this is all temporary just to check if everything is working correctly
-	std::unique_ptr<Map> map;
+	std::unique_ptr<GameMap::Map> map;
 	std::unique_ptr<Entity> player;
 	std::unique_ptr<SpriteRendererSystem> spriteSystem;
 	std::unique_ptr<AnimationSystem> animSystem;

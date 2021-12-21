@@ -1,7 +1,8 @@
+#pragma once
 #include "Components.h"
 #include <SFML/Graphics.hpp>
 
-AnimationComponent createAnimation(sf::IntRect frame, ANIMATION_DIRECTION dir, float speed, bool islooped )
+inline AnimationComponent createAnimation(sf::IntRect frame, ANIMATION_DIRECTION dir, float speed, bool islooped )
 {
     AnimationComponent tmp;
     tmp.speed = speed;

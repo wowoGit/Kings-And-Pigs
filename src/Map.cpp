@@ -89,16 +89,6 @@ void Map::ParseMap()
     }
 
 
-    for (int i = 0; i < map_ptr->GetNumObjectGroups(); i++)
-    {
-        const auto& object_group = map_ptr->GetObjectGroup(i);
-
-        for(size_t object_idx = 0; i < object_group->GetNumObjects(); ++object_idx)
-        {
-            
-        }
-        
-    }
     
     
     

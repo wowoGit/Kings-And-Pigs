@@ -2,6 +2,7 @@
 #include "Tmx.h"
 #include <SFML/Graphics.hpp> 
 #include "Components.h"
+#include "Constants.h"
 #include "TextureLoader.h"
 #include <iostream>
 #include <vector>
@@ -11,11 +12,10 @@ namespace GameMap
 {
 
 
-enum class TileType { SOLID, WATER, QUICKSAND, DECORATION, UNDEFINED}; 
 
 struct layer_tile
 {
-    TileType type;
+    GAMECONSTANTS::TileType type;
     const sf::Texture& texture_ref;
     const sf::IntRect rect;
     const sf::Vector2f sprite_pos;
@@ -70,7 +70,7 @@ class Map
     std::vector<Tmx::Object> map_objects;
     std::vector<map_tileset> tilesets;
     std::unique_ptr<Tmx::Map> map_ptr;
-    std::unordered_map<std::string, TileType> tileTypeMap {{"solid" , TileType::SOLID}};
+    std::unordered_map<std::string, GAMECONSTANTS::TileType> tileTypeMap {{"solid" , GAMECONSTANTS::TileType::SOLID}};
     //Load a tmx map.
     void ParseMap();
 

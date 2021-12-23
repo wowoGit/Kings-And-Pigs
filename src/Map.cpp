@@ -60,7 +60,7 @@ void GameMap::Map::ParseMap()
                 int tile_id = tileLayer->GetTileId(x,y);
                 const auto& map_tile = tileLayer->GetTile(tile_id);
                 const auto& tileset_tile = tileset.tileset_info.GetTile(map_tile.id);
-                TileType type = TileType::UNDEFINED;
+                GAMECONSTANTS::TileType type = GAMECONSTANTS::TileType::UNDEFINED;
                 if(tileset_tile){
                 const auto& tile_type = tileset_tile->GetType();
                 if ( tile_type != "")

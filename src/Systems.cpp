@@ -66,18 +66,18 @@ void AnimationSystem::runAnimation(AnimationComponent& animation, SpriteComponen
         auto& frame = animation.frame;
         switch (animation.dir)
         {
-        case  ANIMATION_DIRECTION::STANDARD:
+        case GAMECONSTANTS::ANIMATION_DIRECTION::STANDARD:
                 animation.frame.left = (animation.frame.left + animation.frame.width + 20) % textureSize.x;
-		sprite.setScale(1.f, 1.f);
+		sprite.setScale(1.f, 1.f); 
 		//sprite.setOrigin(0, 0);
                 break;
         
-        case ANIMATION_DIRECTION::FLIPPED:
+        case GAMECONSTANTS::ANIMATION_DIRECTION::FLIPPED:
                 animation.frame.left =  (animation.frame.left + abs(animation.frame.width)+ 20) % textureSize.x; 
 		sprite.setScale(-1.f, 1.f);
 		//sprite.setOrigin(sprite.getGlobalBounds().width / 1.f, 0);
                 break;
-        case ANIMATION_DIRECTION::NEUTRAL:
+        case GAMECONSTANTS::ANIMATION_DIRECTION::NEUTRAL:
                 animation.frame.left =  (animation.frame.left + abs(animation.frame.width)+ 20) % textureSize.x; 
                 break;
         }
@@ -90,13 +90,15 @@ void AnimationSystem::runAnimation(AnimationComponent& animation, SpriteComponen
 
 bool SpriteRendererSystem::update(float dt) {
        entt::registry& entt_reg = scene->Reg();
-       auto view = entt_reg.view<SpriteComponent>();
-       for( auto [entt,sprite] : view.each())
+       auto view_priority = entt_reg.view<RenderableComponent>();
+       auto view_sprites = entt_reg.view<SpriteComponent>();
+       auto packed_view = view_priority | view_sprites;
+       for( auto [entt,renderable,sprite] : packed_view.each())
        {
                scene->Wind().draw(sprite.Sprite);
                #ifdef DEBUG
-               DebugRenderer::render(sprite.Sprite, DebugType::CENTER, scene->Wind());
-               DebugRenderer::render(sprite.Sprite, DebugType::OUTLINE, scene->Wind());
+               //DebugRenderer::render(sprite.Sprite, DebugType::CENTER, scene->Wind());
+               //DebugRenderer::render(sprite.Sprite, DebugType::OUTLINE, scene->Wind());
                #endif 
        }
         
@@ -162,7 +164,7 @@ bool PlayerInputSystem::update(float dt) {
        entt::registry& entt_reg = scene->Reg();
        //This is a temporary version to test the physics
         auto view = entt_reg.view<PlayerTag, MoveComponent, StateComponent>();
-        for(auto [player,tag,mc,state] : view.each())
+        for(auto [player,mc,state] : view.each())
         {
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))

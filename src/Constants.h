@@ -1,0 +1,12 @@
+#pragma once 
+
+
+namespace GAMECONSTANTS
+{
+    enum class RENDER_PRIORITY {BACKGROUND_LAYER= 0, OBJECT_LAYER, PLAYER_LAYER, HUD};
+
+    enum class TileType { SOLID, WATER, QUICKSAND, DECORATION, UNDEFINED}; 
+    
+    enum class ANIMATION_DIRECTION { STANDARD, FLIPPED, NEUTRAL};
+
+}

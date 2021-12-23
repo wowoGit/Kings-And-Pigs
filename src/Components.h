@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Constants.h"
 //#include "InputCommands.hpp"
 #include <SFML/Graphics.hpp>
 //ENTITY COMPONENTS 
@@ -14,11 +15,15 @@ struct SpriteComponent
     sf::Sprite Sprite;
 };
 
-enum class ANIMATION_DIRECTION { STANDARD, FLIPPED, NEUTRAL};
+struct RenderableComponent
+{
+    GAMECONSTANTS::RENDER_PRIORITY prio;
+};
+
 struct AnimationComponent
 {
     float speed;
-    ANIMATION_DIRECTION dir;
+    GAMECONSTANTS::ANIMATION_DIRECTION dir;
     sf::IntRect frame;
     bool islooped;
 
@@ -65,4 +70,4 @@ struct StateComponent
 // Tag components for FSM in the future
 
 struct PlayerTag
-{ bool placeholder;}; //for some reason component with no fields doesnt work (WTFF)
+{}; //for some reason component with no fields doesnt work (WTFF)

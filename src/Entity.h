@@ -1,6 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include <Entt/entt.hpp>
+#include "Components.h"
 #include "Scene.h"
 class Entity
 {
@@ -13,7 +14,26 @@ public:
 	template<typename T, typename ... Args >
 	T& AddComponent(Args&& ... args)
 	{
-		return _scene->entt_reg.emplace<T>(EntityID,std::forward<Args>(args)...);
+		auto& component_ref = _scene->entt_reg.emplace<T>(EntityID,std::forward<Args>(args)...);
+
+		//sort entity registry if the component is RenderableComponent 
+		if constexpr (std::is_same<T,RenderableComponent>::value)
+		{
+			auto sort_render_prio = [] (const RenderableComponent& r1, const RenderableComponent r2)
+			{
+				return r1.prio < r2.prio;
+			};
+			_scene->entt_reg.sort<RenderableComponent>(sort_render_prio);
+		}
+
+		return component_ref;
+	}
+
+
+	template<typename T>
+	void AddComponent()
+	{
+		return _scene->entt_reg.emplace<T>(EntityID);
 	}
 
 	template<typename T>

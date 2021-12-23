@@ -1,5 +1,6 @@
 #pragma once
 #include "Components.h"
+#include "Constants.h"
 #include "Entity.h"
 #include "Tmx.h"
 #include "TextureLoader.h"

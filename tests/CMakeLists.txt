@@ -12,7 +12,7 @@ file(GLOB SFML_DLLS "${DLL_SOURCE_PATH}/*.dll")
 file(GLOB SFML_LIBS "${LIB_SOURCE_PATH}/*.a")
 include(GoogleTest)
 message(" libs ${SFML_LIBS}")
-target_link_libraries(${Tests} PUBLIC ${SFML_LIBS} gtest_main ECS)
+target_link_libraries(${Tests} PUBLIC ${SFML_LIBS} gtest gtest_main ECS)
 target_include_directories( ${Tests} PUBLIC ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/include)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 

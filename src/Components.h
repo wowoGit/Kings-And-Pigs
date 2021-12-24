@@ -34,7 +34,7 @@ struct AnimationPool
     std::map<std::string, AnimationComponent> pool;
     std::string current;
 };
-
+// 1. position, 2. velocity, 3. current_speed, 4. max_speed
 struct MoveComponent
 {
     sf::Vector2f position;

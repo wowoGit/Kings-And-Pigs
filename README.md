@@ -16,7 +16,7 @@ game developing project I will do my best to develop and in the same time use as
 - [Googletest](https://github.com/google/googletest/) - Unit testing for the engine.
 - [CMake](https://github.com/google/googletest/) - Cross-Platform build automation system.
 
-# Task List (updated 14.12.2021)
+# Task List (updated 24.12.2021)
 - [x] Get a grasp of ECS, particularly Entt. 
 - [x] Build a quick demo project using CMake.
 - [X] Build an SFML example using CMake.
